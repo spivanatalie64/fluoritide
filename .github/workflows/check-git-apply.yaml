@@ -64,7 +64,7 @@ jobs:
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
 
       - name: Checkout 'spivanatalie64/fluorite' ${{ env.BRANCH }}
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        uses: actions/checkout@v4
         with:
             repository: 'spivanatalie64/fluorite'
             ref: ${{ github.event.inputs.rtag }}
