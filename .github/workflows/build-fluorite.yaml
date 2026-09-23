@@ -83,7 +83,7 @@ jobs:
       - id: cfg
         name: Compute configuration
         run: |
-          PREFIX="$IMAGE_REGISTRY/$(echo "$RAW_OWNER" | tr '[:upper:]' '[:lower:]')/fluorite"
+          PREFIX="$IMAGE_REGISTRY/$(echo "$RAW_OWNER" | tr '[:upper:]' '[:lower:]')"
           echo "prefix=$PREFIX" >> $GITHUB_OUTPUT
           V=$(cat repo/build/RELEASE)
           echo "version=$V" >> $GITHUB_OUTPUT
