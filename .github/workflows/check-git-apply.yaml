@@ -54,11 +54,39 @@ jobs:
           chmod +x pup
           rm pup_v0.4.0_linux_amd64.zip
 
-          # BRANCH=$(curl https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG | ./pup -p li.branch:last-child a text{})
-          BRANCH=$(curl -sSL https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG | python3 ~/cromite/tools/get_branch.py)
+          BRANCH=$(curl -sSL https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG | python3 -c '
+import sys
+from html.parser import HTMLParser
+class P(HTMLParser):
+ def __init__(self):
+  super().__init__(); self.b = []
+  self.i = False
+ def handle_starttag(self, t, a):
+  if t == "li" and any("branch" in v.split() for k, v in a if k == "class"): self.i = True
+  elif t == "a" and self.i: self.c = True
+ def handle_endtag(self, t):
+  if t == "li": self.i = False
+  elif t == "a" and self.i: self.c = False
+ def handle_data(self, d):
+  if self.i and getattr(self, "c", False): self.b.append(d.strip())
+p = P(); p.feed(sys.stdin.read()); print(p.b[-1] if p.b else "")')
           if [ -z "${BRANCH}" ]; then
-            # BRANCH=$(curl https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG a | ./pup -p li.branch:first-child a text{})
-            BRANCH=$(curl -sSL https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG a | python3 ~/cromite/tools/get_branch.py)
+            BRANCH=$(curl -sSL https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG a | python3 -c '
+import sys
+from html.parser import HTMLParser
+class P(HTMLParser):
+ def __init__(self):
+  super().__init__(); self.b = []
+  self.i = False
+ def handle_starttag(self, t, a):
+  if t == "li" and any("branch" in v.split() for k, v in a if k == "class"): self.i = True
+  elif t == "a" and self.i: self.c = True
+ def handle_endtag(self, t):
+  if t == "li": self.i = False
+  elif t == "a" and self.i: self.c = False
+ def handle_data(self, d):
+  if self.i and getattr(self, "c", False): self.b.append(d.strip())
+p = P(); p.feed(sys.stdin.read()); print(p.b[0] if p.b else "")')
           fi
           if [ -z "${BRANCH}" ]; then
             echo "Can not recover the base commit"
