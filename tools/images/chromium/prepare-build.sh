@@ -79,7 +79,7 @@ git submodule foreach git config -f ./.git/config submodule.$name.ignore all
 git config --add remote.origin.fetch '+refs/tags/*:refs/tags/*'
 
 echo -e "${RED} -------- sync third_party repos ${NC}"
-gclient sync -D --no-history --nohooks
+gclient sync -D --no-history --nohooks --jobs 16
 
 git config user.email "build@example.com"
 git config user.name "Builder"
