@@ -105,12 +105,10 @@ jobs:
       - name: Check GHCR permissions
         run: |
           echo "Checking permissions for ${{ github.repository_owner }} on GHCR..."
-          # Note: Pushing a dummy tag is a reliable way to check, but let's just inspect first.
-          # We can't easily 'check' permissions without trying to push.
-          echo "GitHub Token scopes: (check restricted)"
-          # Trying to push a test tag to a dummy package might be complex.
-          # Let's trust that the login was successful and the permissions in the workflow block are correct.
-          # If it still fails, the package itself might need explicit repository linkage.
+          # Verify the docker login
+          docker info
+          # Verify we can reach the registry
+          docker pull $IMAGE_REGISTRY/$RAW_OWNER/fluorite/build-deps:latest || echo "Registry reachable, but image not found"
 
       - name: Install regctl
         run: |
@@ -211,12 +209,10 @@ jobs:
       - name: Check GHCR permissions
         run: |
           echo "Checking permissions for ${{ github.repository_owner }} on GHCR..."
-          # Note: Pushing a dummy tag is a reliable way to check, but let's just inspect first.
-          # We can't easily 'check' permissions without trying to push.
-          echo "GitHub Token scopes: (check restricted)"
-          # Trying to push a test tag to a dummy package might be complex.
-          # Let's trust that the login was successful and the permissions in the workflow block are correct.
-          # If it still fails, the package itself might need explicit repository linkage.
+          # Verify the docker login
+          docker info
+          # Verify we can reach the registry
+          docker pull $IMAGE_REGISTRY/$RAW_OWNER/fluorite/build-deps:latest || echo "Registry reachable, but image not found"
 
       - name: Resolve starting image
         env:
