@@ -103,9 +103,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TITLE="Patch radar: ${{ steps.scan.outputs.count }} patch(es) break on ${{ steps.ver.outputs.next }}"
-          BODY=$(cat <<EOF
-          Predicted patch failures against Chromium \`${{ steps.ver.outputs.next }}\`
-          (\`${{ steps.scan.outputs.count }}/${{ steps.scan.outputs.total }}\` of the stack).
+          BODY=$(cat <<'EOF'
+          Predicted patch failures against Chromium `${{ steps.ver.outputs.next }}`
+          (`${{ steps.scan.outputs.count }}/${{ steps.scan.outputs.total }}` of the stack).
 
           Fix these **before** the next train picks this major:
 
