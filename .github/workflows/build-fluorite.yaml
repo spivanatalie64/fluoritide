@@ -100,15 +100,7 @@ jobs:
           echo "osltag=$(echo $OSLIST | tr ' ' '-')" >> $GITHUB_OUTPUT
 
       - name: Login to GHCR
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login $IMAGE_REGISTRY -u ${{ github.repository_owner }} --password-stdin
-
-      - name: Check GHCR permissions
-        run: |
-          echo "Checking permissions for ${{ github.repository_owner }} on GHCR..."
-          # Verify the docker login
-          docker info
-          # Verify we can reach the registry
-          docker pull $IMAGE_REGISTRY/$RAW_OWNER/fluorite/build-deps:latest || echo "Registry reachable, but image not found"
+        run: echo "${{ secrets.GHCT }}" | docker login $IMAGE_REGISTRY -u ${{ github.repository_owner }} --password-stdin
 
       - name: Install regctl
         run: |
@@ -204,15 +196,7 @@ jobs:
       matrix: ${{ fromJSON(needs.matrix.outputs.targets) }}
     steps:
       - name: Login to GHCR
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login $IMAGE_REGISTRY -u ${{ github.repository_owner }} --password-stdin
-
-      - name: Check GHCR permissions
-        run: |
-          echo "Checking permissions for ${{ github.repository_owner }} on GHCR..."
-          # Verify the docker login
-          docker info
-          # Verify we can reach the registry
-          docker pull $IMAGE_REGISTRY/$RAW_OWNER/fluorite/build-deps:latest || echo "Registry reachable, but image not found"
+        run: echo "${{ secrets.GHCT }}" | docker login $IMAGE_REGISTRY -u ${{ github.repository_owner }} --password-stdin
 
       - name: Resolve starting image
         env:
