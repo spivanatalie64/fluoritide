@@ -100,7 +100,7 @@ jobs:
           echo "osltag=$(echo $OSLIST | tr ' ' '-')" >> $GITHUB_OUTPUT
 
       - name: Login to GHCR
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login $IMAGE_REGISTRY -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login $IMAGE_REGISTRY -u ${{ github.repository_owner }} --password-stdin
 
       - name: Install regctl
         run: |
@@ -196,7 +196,7 @@ jobs:
       matrix: ${{ fromJSON(needs.matrix.outputs.targets) }}
     steps:
       - name: Login to GHCR
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login $IMAGE_REGISTRY -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login $IMAGE_REGISTRY -u ${{ github.repository_owner }} --password-stdin
 
       - name: Resolve starting image
         env:
