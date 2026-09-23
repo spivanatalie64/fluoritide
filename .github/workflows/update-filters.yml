@@ -17,7 +17,7 @@ jobs:
       # Checkout main branch
       # -------------------------------
       - name: Checkout main branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: 'uazo/cromite'
           path: main
@@ -27,7 +27,7 @@ jobs:
       # Checkout pages branch
       # -------------------------------
       - name: Checkout pages branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: 'uazo/cromite'
           ref: pages
