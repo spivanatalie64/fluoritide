@@ -54,9 +54,11 @@ jobs:
           chmod +x pup
           rm pup_v0.4.0_linux_amd64.zip
 
-          BRANCH=$(curl https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG | ./pup -p li.branch:last-child a text{})
+          # BRANCH=$(curl https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG | ./pup -p li.branch:last-child a text{})
+          BRANCH=$(curl -sSL https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG | python3 ~/cromite/tools/get_branch.py)
           if [ -z "${BRANCH}" ]; then
-            BRANCH=$(curl https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG a | ./pup -p li.branch:first-child a text{})
+            # BRANCH=$(curl https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG a | ./pup -p li.branch:first-child a text{})
+            BRANCH=$(curl -sSL https://github.com/spivanatalie64/fluorite/branch_commits/$RTAG a | python3 ~/cromite/tools/get_branch.py)
           fi
           if [ -z "${BRANCH}" ]; then
             echo "Can not recover the base commit"
