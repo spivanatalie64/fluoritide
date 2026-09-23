@@ -120,10 +120,10 @@ jobs:
           IMG=${{ steps.cfg.outputs.prefix }}/build-deps:${{ steps.cfg.outputs.version }}
           docker pull $IMG && exit 0
           ./regctl image inspect $IMG >/dev/null 2>&1 && { docker pull $IMG; exit 0; }
-          DOCKER_BUILDKIT=1 docker build --cache-from $IMG -t $IMG \
+          DOCKER_BUILDKIT=1 docker build -t $IMG \
             --build-arg BASE_IMAGE=$BUILD_BASE_IMAGE \
             --build-arg VERSION=${{ steps.cfg.outputs.version }} \
-            --no-cache repo/tools/images/build-deps
+            repo/tools/images/build-deps
           docker push $IMG
 
       - name: Ensure chromium image
@@ -132,7 +132,7 @@ jobs:
           V=${{ steps.cfg.outputs.version }}
           docker pull $P/chromium:$V && exit 0
           ./regctl image inspect $P/chromium:$V >/dev/null 2>&1 && { docker pull $P/chromium:$V; exit 0; }
-          DOCKER_BUILDKIT=1 docker build --cache-from $P/chromium:$V -t $P/chromium:$V \
+          DOCKER_BUILDKIT=1 docker build -t $P/chromium:$V \
             --build-arg BASE_IMAGE=$P/build-deps:$V \
             --build-arg VERSION=$V \
             --build-arg TARGET_OS_LIST="${{ steps.cfg.outputs.oslist }}" \
@@ -146,7 +146,7 @@ jobs:
           S=${{ steps.cfg.outputs.sha7 }}
           docker pull $P/patched:$V-$S && exit 0
           ./regctl image inspect $P/patched:$V-$S >/dev/null 2>&1 && { docker pull $P/patched:$V-$S; exit 0; }
-          DOCKER_BUILDKIT=1 docker build --cache-from $P/patched:$V-$S -t $P/patched:$V-$S \
+          DOCKER_BUILDKIT=1 docker build -t $P/patched:$V-$S \
             --build-arg BASE_IMAGE=$P/chromium:$V \
             --build-arg SOURCE_REPO=${{ github.server_url }}/${{ github.repository }} \
             --build-arg PATCH_SHA=${{ steps.cfg.outputs.sha }} \
@@ -161,7 +161,7 @@ jobs:
           O=${{ steps.cfg.outputs.osltag }}
           docker pull $P/builder:$V-$S-$O && exit 0
           ./regctl image inspect $P/builder:$V-$S-$O >/dev/null 2>&1 && { docker pull $P/builder:$V-$S-$O; exit 0; }
-          DOCKER_BUILDKIT=1 docker build --cache-from $P/builder:$V-$S-$O -t $P/builder:$V-$S-$O \
+          DOCKER_BUILDKIT=1 docker build -t $P/builder:$V-$S-$O \
             --build-arg BASE_IMAGE=$P/patched:$V-$S \
             --build-arg TARGET_OS_LIST="${{ steps.cfg.outputs.oslist }}" \
             repo/tools/images/builder
