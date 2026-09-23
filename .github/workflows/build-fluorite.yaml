@@ -300,7 +300,7 @@ jobs:
           docker cp bld-$NAME:/workspace/chromium/src/out/$OUT/RELEASE ./artifacts/RELEASE-$NAME || true
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v4
         with:
           name: fluorite-${{ matrix.name }}
           path: artifacts/
